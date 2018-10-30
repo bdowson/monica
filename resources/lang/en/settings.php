@@ -393,5 +393,8 @@ return [
     'personalization_life_event_type_first_kiss' => 'First kiss',
 
     'admin_title' => 'Here you can manage the different accounts running on this instance of Monica',
+    'admin_accounts_title' => 'Accounts',
+    'admin_accounts_add' => 'Add new account',
+    'admin_accounts_desc' => 'Add and edit accounts on this instance',
 
 ];

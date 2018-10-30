@@ -247,6 +247,11 @@ Vue.component(
     require('./components/settings/ActivityTypes.vue')
 );
 
+Vue.component(
+    'admin-accounts',
+    require('./components/settings/AdminAccounts.vue')
+);
+
 // axios
 import axios from 'axios';
 
