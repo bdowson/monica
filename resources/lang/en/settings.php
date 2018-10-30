@@ -274,6 +274,7 @@ return [
     'api_authorized_clients_scopes' => 'Scopes',
 
     'personalization_tab_title' => 'Personalize your account',
+    'admin_tab_title' => 'Administration Panel',
 
     'personalization_title' => 'Here you can find different settings to configure your account. These features are more for “power users” who want maximum control over Monica.',
     'personalization_contact_field_type_title' => 'Contact field types',
@@ -390,4 +391,7 @@ return [
     'personalization_life_event_type_changed_beliefs' => 'Changed beliefs',
     'personalization_life_event_type_first_word' => 'First word',
     'personalization_life_event_type_first_kiss' => 'First kiss',
+
+    'admin_title' => 'Here you can manage the different accounts running on this instance of Monica',
+
 ];

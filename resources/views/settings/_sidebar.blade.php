@@ -60,7 +60,7 @@
     @if(Auth::user()->is_admin && Auth::user()->Account->admin_panel)
       @component('components.sidebar', [
         'route' => 'settings.admin.index',
-        'icon' => 'fa fa-gear',
+        'icon' => 'fa fa-gears',
         'title' => 'settings.sidebar_settings_admin'])
       @endcomponent
     @endif
