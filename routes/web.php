@@ -319,5 +319,10 @@ Route::middleware(['auth', 'verified', 'u2f', '2fa'])->group(function () {
             Route::post('/settings/security/2fa-disable', 'Settings\\MultiFAController@deactivateTwoFactor');
             Route::get('/settings/security/u2f-register', 'Settings\\MultiFAController@u2fRegister')->name('u2f-register');
         });
+
+        Route::name('admin.')->middleware(['is_admin'])->group(function () {
+            Route::get('/settings/admin', 'Settings\\AdminController@index')->name('index');
+        });
+
     });
 });

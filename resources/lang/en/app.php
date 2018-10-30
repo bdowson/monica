@@ -80,6 +80,7 @@ return [
     'breadcrumb_settings_personalization' => 'Personalization',
     'breadcrumb_settings_security' => 'Security',
     'breadcrumb_settings_security_2fa' => 'Two Factor Authentication',
+    'breadcrumb_settings_admin' => 'Admin',
     'breadcrumb_profile' => 'Profile of :name',
 
     'gender_male' => 'Man',

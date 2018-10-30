@@ -70,6 +70,7 @@ class Kernel extends HttpKernel
         'sentry.context' => \App\Http\Middleware\SentryContext::class,
         'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        'is_admin' => \App\Http\Middleware\CheckIsAdmin::class,
     ];
 
     /**

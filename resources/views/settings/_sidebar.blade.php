@@ -57,5 +57,12 @@
       'title' => 'settings.sidebar_settings_security'])
     @endcomponent
 
+    @component('components.sidebar', [
+      'route' => 'settings.admin.index',
+      'icon' => 'fa fa-gear',
+      'title' => 'settings.sidebar_settings_admin'])
+    @endcomponent
+
+
   </ul>
 </div>
