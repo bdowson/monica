@@ -18,6 +18,11 @@ class AddAdminToggleToUsers extends Migration
                 $table->boolean('is_admin')->default(0);
             });
         }
+        if(!Schema::hasColumn('accounts', 'admin_panel')) {
+            Schema::table('accounts', function (Blueprint $table) {
+                $table->boolean('admin_panel')->default(0)->after('legacy_free_plan_unlimited_contacts');
+            });
+        }
     }
 
     /**
@@ -30,6 +35,11 @@ class AddAdminToggleToUsers extends Migration
         if(Schema::hasColumn('users', 'is_admin')) {
             Schema::table('users', function (Blueprint $table) {
                 $table->dropColumn('is_admin');
+            });
+        }
+        if(Schema::hasColumn('accounts', 'admin_panel')) {
+            Schema::table('accounts', function (Blueprint $table) {
+                $table->dropColumn('admin_panel');
             });
         }
     }

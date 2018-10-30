@@ -796,18 +796,20 @@ class Account extends Model
      * @param string $email
      * @param string $password
      * @param string $ipAddress
+     * @param boolean $ipAddress
      * @return $this
      */
-    public static function createDefault($first_name, $last_name, $email, $password, $ipAddress = null, $lang = null)
+    public static function createDefault($first_name, $last_name, $email, $password, $ipAddress = null, $lang = null, $adminPanel = false)
     {
         // create new account
         $account = new self;
         $account->api_key = str_random(30);
         $account->created_at = now();
+        $account->admin_panel = $adminPanel;
         $account->save();
 
         // create the first user for this account
-        User::createDefault($account->id, $first_name, $last_name, $email, $password, $ipAddress, $lang);
+        User::createDefault($account->id, $first_name, $last_name, $email, $password, $ipAddress, $lang, $adminPanel);
 
         $account->populateDefaultFields();
 

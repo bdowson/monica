@@ -53,6 +53,10 @@ class EnableAdminPanel extends Command
         $user->is_admin = 1;
         $user->save();
 
+        // Set user account to admin
+        $user->Account->admin_panel = 1;
+        $user->Account->save();
+
         $this->info('User ' . $user->getNameAttribute() . ' is now an admin');
     }
 }

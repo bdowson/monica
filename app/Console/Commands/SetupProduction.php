@@ -54,7 +54,7 @@ class SetupProduction extends Command
         $email = $this->option('email');
         $password = $this->option('password');
         if (! empty($email) && ! empty($password)) {
-            Account::createDefault('John', 'Doe', $email, $password);
+            Account::createDefault('John', 'Doe', $email, $password, null, null, true);
 
             $this->info('| You can now sign in to your account:');
             $this->line('| username: '.$email);

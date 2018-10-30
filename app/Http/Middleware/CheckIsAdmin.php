@@ -16,7 +16,7 @@ class CheckIsAdmin
      */
     public function handle($request, Closure $next)
     {
-        if(!Auth::user()->is_admin){
+        if(!Auth::user()->is_admin || !Auth::user()->Account->admin_panel) {
             return redirect()->route('settings.index')->withErrors(['You do not have access to the admin page']);
         }
         return $next($request);

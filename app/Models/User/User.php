@@ -77,9 +77,10 @@ class User extends Authenticatable implements MustVerifyEmail
      * @param string $password
      * @param string $ipAddress
      * @param string $lang
+     * @param boolean $isAdmin
      * @return $this
      */
-    public static function createDefault($account_id, $first_name, $last_name, $email, $password, $ipAddress = null, $lang = null)
+    public static function createDefault($account_id, $first_name, $last_name, $email, $password, $ipAddress = null, $lang = null, $isAdmin = false)
     {
         // create the user
         $user = new self;
@@ -90,6 +91,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $user->password = bcrypt($password);
         $user->created_at = now();
         $user->locale = $lang ?: App::getLocale();
+        $user->is_admin = $isAdmin;
 
         $user->setDefaultCurrencyAndTimezone($ipAddress, $user->locale);
 

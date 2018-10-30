@@ -57,11 +57,13 @@
       'title' => 'settings.sidebar_settings_security'])
     @endcomponent
 
-    @component('components.sidebar', [
-      'route' => 'settings.admin.index',
-      'icon' => 'fa fa-gear',
-      'title' => 'settings.sidebar_settings_admin'])
-    @endcomponent
+    @if(Auth::user()->is_admin && Auth::user()->Account->admin_panel)
+      @component('components.sidebar', [
+        'route' => 'settings.admin.index',
+        'icon' => 'fa fa-gear',
+        'title' => 'settings.sidebar_settings_admin'])
+      @endcomponent
+    @endif
 
 
   </ul>
