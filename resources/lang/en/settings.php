@@ -396,5 +396,15 @@ return [
     'admin_accounts_title' => 'Accounts',
     'admin_accounts_add' => 'Add new account',
     'admin_accounts_desc' => 'Add and edit accounts on this instance',
+    'admin_account_id' => 'Account ID',
+    'admin_primary_user_name' => 'Primary User Name',
+    'admin_primary_user_email' => 'Primary User Email',
+    'admin_accounts_table_actions' => 'Actions',
+    'admin_account_add' => 'Add New Account',
+    'admin_create_modal_first_name' => 'First Name',
+    'admin_create_modal_last_name' => 'Last Name',
+    'admin_create_modal_email' => 'Email',
+    'admin_create_modal_password' => 'Password',
+    'admin_create_modal_is_paid' => 'Is Paid',
 
 ];

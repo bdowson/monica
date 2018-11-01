@@ -16,45 +16,92 @@
       <div class="dt-row">
         <div class="dtc">
           <div class="pa2 b">
-            {{ $t('settings.personalization_contact_field_type_table_name') }}
+            {{ $t('settings.admin_account_id') }}
+          </div>
+        </div>
+        <div class="dtc">
+          <div class="pa2 b">
+            {{ $t('settings.admin_primary_user_name') }}
+          </div>
+        </div>
+        <div class="dtc">
+          <div class="pa2 b">
+            {{ $t('settings.admin_primary_user_email') }}
           </div>
         </div>
         <div class="dtc" :class="[ dirltr ? 'tr' : 'tl' ]">
           <div class="pa2 b">
-            {{ $t('settings.personalization_contact_field_type_table_actions') }}
+            {{ $t('settings.admin_accounts_table_actions') }}
           </div>
         </div>
       </div>
 
-      <div class="dt-row bb b--light-gray" v-for="user in users" :key="account.id">
+      <div class="dt-row bb b--light-gray" v-for="user in users" :key="user.id">
         <div class="dtc">
           <div class="pa2">
-            {{ user.account.id }}
-            <span class="i"> ({{ user.email }})</span>
+            {{ user.account_id }}
+          </div>
+        </div>
+        <div class="dtc">
+          <div class="pa2">
+            {{ user.first_name }} {{ user.last_name }}
+          </div>
+        </div>
+        <div class="dtc">
+          <div class="pa2">
+            {{ user.email }}
           </div>
         </div>
         <div class="dtc" :class="[ dirltr ? 'tr' : 'tl' ]">
           <div class="pa2">
-            <i class="fa fa-pencil-square-o pointer pr2" @click="showEdit(user.account.id)"></i>
-            <i class="fa fa-trash-o pointer" @click="showDelete(user.account.id)" v-if="user.account.id != "></i>
+            <i class="fa fa-pencil-square-o pointer pr2" @click="showEdit(user.account_id)"></i>
+            <i class="fa fa-trash-o pointer" @click="showDelete(user.account_id)" v-if="user.account_id != accountId"></i>
           </div>
         </div>
       </div>
 
     </div>
 
-    <!-- Create Gender type -->
-    <sweet-modal ref="createModal" overlay-theme="dark" :title="$t('settings.personalization_genders_modal_add')">
+    <!-- Create account -->
+    <sweet-modal ref="createModal" overlay-theme="dark" :title="$t('settings.admin_account_add')">
       <form @submit.prevent="store()">
+        <div class="form-error-message mb3" v-if="createForm.error != ''">
+          <div class="pa2">
+            <p class="mb0">{{ createForm.error }}</p>
+          </div>
+        </div>
         <div class="mb4">
           <p class="b mb2"></p>
           <form-input
-            v-model="createForm.name"
+            v-model="createForm.first_name"
             :input-type="'text'"
             :id="''"
             :required="true"
-            :title="$t('settings.personalization_genders_modal_question')">
+            :title="$t('settings.admin_create_modal_first_name')">
           </form-input>
+          <form-input
+            v-model="createForm.last_name"
+            :input-type="'text'"
+            :id="''"
+            :required=true
+            :title="$t('settings.admin_create_modal_last_name')">
+          </form-input>
+          <form-input
+            v-model="createForm.email"
+            :input-type="'email'"
+            :id="''"
+            :required="true"
+            :title="$t('settings.admin_create_modal_email')">
+          </form-input>
+          <form-input
+            v-model="createForm.password"
+            :input-type="'password'"
+            :id="''"
+            :required="true"
+            :title="$t('settings.admin_create_modal_password')">
+          </form-input>
+          <input type="checkbox" id="ispaid" v-model="createForm.has_access_to_paid_version_for_free">
+          <label for="ispaid">{{ $t('settings.admin_create_modal_is_paid') }}</label>
         </div>
       </form>
       <div class="relative">
@@ -131,11 +178,16 @@
         data() {
             return {
                 users: [],
+                accountId: '',
                 errorMessage: '',
 
                 createForm: {
-                    name: '',
-                    errors: []
+                    first_name: '',
+                    last_name: '',
+                    email: '',
+                    password: '',
+                    has_access_to_paid_version_for_free: false,
+                    error: ''
                 },
 
                 updateForm: {
@@ -179,14 +231,14 @@
              */
             prepareComponent() {
                 this.dirltr = this.$root.htmldir == 'ltr';
+                this.getCurrentAccountId();
                 this.getAccounts();
             },
 
             getCurrentAccountId() {
                 axios.get('/settings/admin/account-id')
                         .then(response => {
-                            console.log(response);
-                            this.account_id = response.data;
+                            this.accountId = response.data;
                         });
             },
 
@@ -199,6 +251,7 @@
             },
 
             closeModal() {
+                this.resetCreateFormData();
                 this.$refs.createModal.close();
             },
 
@@ -215,15 +268,28 @@
             },
 
             store() {
-                axios.post('/settings/personalization/genders', this.createForm)
+                axios.post('/settings/admin/create-new-account', this.createForm)
                       .then(response => {
                           this.$refs.createModal.close();
-                          this.genders.push(response.data);
-                          this.createForm.name = '';
-                      });
+                          this.users = response.data;
+                          this.resetCreateFormData();
+                      })
+                    .catch(e => {
+                        this.createForm.error = e.response.data.message;
+                    });
+            },
+            resetCreateFormData() {
+                this.createForm = {
+                  first_name: '',
+                  last_name: '',
+                  email: '',
+                  password: '',
+                  has_access_to_paid_version_for_free: false,
+                  error: ''
+                };
             },
 
-            showEdit(gender) {
+            showEdit(accountUd) {
                 this.updateForm.id = gender.id.toString();
                 this.updateForm.name = gender.name;
                 this.updatedGender = gender;
@@ -250,7 +316,7 @@
             },
 
             trash() {
-                axios.delete('/settings/personalization/genders/' + this.deleteForm.id)
+                axios.delete('/settings/admin/accounts/' + this.deleteForm.id)
                       .then(response => {
                           this.closeDeleteModal();
                           this.getGenders();

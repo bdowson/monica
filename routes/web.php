@@ -323,6 +323,8 @@ Route::middleware(['auth', 'verified', 'u2f', '2fa'])->group(function () {
         Route::name('admin.')->middleware(['is_admin'])->group(function () {
             Route::get('/settings/admin', 'Settings\\AdminController@index')->name('index');
             Route::get('/settings/admin/account-first-users', 'Settings\\AdminController@getAccountFirstUsers');
+            Route::get('/settings/admin/account-id', 'Settings\\AdminController@getAccountId');
+            Route::post('/settings/admin/create-new-account', 'Settings\\AdminController@createNewAccount');
         });
 
     });
